@@ -1,0 +1,19 @@
+Request:
+http https://developer.mozilla.org/
+
+
+Response:
+HTTP/1.1 302 Found
+Alt-Svc: clear
+Content-Length: 29
+Via: 1.1 google
+X-cache: miss
+cache-control: no-store
+content-type: text/plain; charset=utf-8
+date: Mon, 02 Jun 2025 11:48:55 GMT
+location: /en-US/
+server: Google Frontend
+vary: Accept
+x-cloud-trace-context: 816ed284eb1d43b8785e95da19738370
+
+Found. Redirecting to /en-US/
