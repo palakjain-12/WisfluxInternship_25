@@ -1,0 +1,32 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 40px;
+  background-color: white;
+}
+
+p {
+  font-size: 18px;
+  color: #d11b1b;
+}
+
+input {
+  padding: 8px;
+  margin: 10px;
+  font-size: 16px;
+}
+
+button {
+  padding: 8px 15px;
+  margin: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+ .light{
+    color:black;
+    background-color: white;
+ }
+ .dark{
+    color: white;
+    background-color: black;
+ }
