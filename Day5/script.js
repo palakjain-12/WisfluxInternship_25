@@ -1,14 +1,11 @@
-// Keep track of scores
 let playerScore = 0;
 let computerScore = 0;
 
-// Main game function
 function play(playerChoice) {
-    // Computer picks randomly
+
     let choices = ['rock', 'paper', 'scissors'];
     let computerChoice = choices[Math.floor(Math.random() * 3)];
     
-    // Find the winner
     let result = '';
     if (playerChoice === computerChoice) {
         result = "It's a tie!";
@@ -23,17 +20,13 @@ function play(playerChoice) {
         result = 'Computer wins!';
         computerScore++;
     }
-    
-    // Show the result
     document.getElementById('result').innerHTML = 
         'You chose ' + playerChoice + ', Computer chose ' + computerChoice + '<br>' + result;
-    
-    // Update scores
+   
     document.getElementById('player-score').textContent = playerScore;
     document.getElementById('computer-score').textContent = computerScore;
 }
 
-// Reset the game
 function reset() {
     playerScore = 0;
     computerScore = 0;
