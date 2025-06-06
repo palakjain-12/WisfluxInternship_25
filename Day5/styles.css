@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: rgb(221, 176, 235);
+    padding: 20px;
+}
+
+h1 {
+    color: darkmagenta;
+    font-size: 40px;
+}
+
+.score {
+    font-size: 24px;
+    margin: 20px;
+}
+
+.score p {
+    display: inline-block;
+    margin: 0 20px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.buttons {
+    margin: 30px;
+}
+
+button {
+    font-size: 20px;
+    padding: 15px 25px;
+    margin: 10px;
+    background-color: white;
+    border: 2px solid darkblue;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: lightgray;
+}
+
+#result {
+    font-size: 24px;
+    margin: 30px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    font-weight: bold;
+}
