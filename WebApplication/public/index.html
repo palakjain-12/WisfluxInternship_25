@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Manager</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Recipe Manager</h1>
+            <p>Store and manage your favorite recipes</p>
+        </header>
+
+        <main>
+            <!-- Add Recipe Form -->
+            <section class="add-recipe-section">
+                <h2>Add New Recipe</h2>
+                <form id="recipe-form">
+                    <div class="form-group">
+                        <label for="recipe-name">Recipe Name:</label>
+                        <input type="text" id="recipe-name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipe-category">Category:</label>
+                        <select id="recipe-category" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                            <option value="dessert">Dessert</option>
+                            <option value="snack">Snack</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prep-time">Prep Time (minutes):</label>
+                        <input type="number" id="prep-time" name="prepTime" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="servings">Servings:</label>
+                        <input type="number" id="servings" name="servings" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ingredients">Ingredients (one per line):</label>
+                        <textarea id="ingredients" name="ingredients" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="instructions">Instructions:</label>
+                        <textarea id="instructions" name="instructions" rows="6" required></textarea>
+                    </div>
+                    
+                    <button type="submit">Add Recipe</button>
+                </form>
+            </section>
+
+            <!-- Search and Filter -->
+            <section class="search-section">
+                <h2>Find Recipes</h2>
+                <div class="search-controls">
+                    <input type="text" id="search-input" placeholder="Search recipes...">
+                    <select id="filter-category">
+                        <option value="">All Categories</option>
+                        <option value="breakfast">Breakfast</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="dinner">Dinner</option>
+                        <option value="dessert">Dessert</option>
+                        <option value="snack">Snack</option>
+                    </select>
+                    <button id="search-btn">Search</button>
+                </div>
+            </section>
+
+            <!-- Recipe Display -->
+            <section class="recipes-section">
+                <h2>Your Recipes</h2>
+                <div id="recipes-container">
+                    <!-- Recipes will be loaded here dynamically -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Recipe Detail Modal -->
+        <div id="recipe-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="recipe-details">
+                    <!-- Recipe details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
