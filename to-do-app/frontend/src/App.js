@@ -1,4 +1,3 @@
-// Updated App.js - Connect to PostgreSQL Backend
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import TodoInput from './TodoInput';
@@ -10,8 +9,8 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // API base URL - change this to match your backend server
-  const API_URL = 'http://localhost:3000/api/tasks';
+  // API base URL - use environment variable or default
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api/tasks';
 
   // Fetch all tasks when component mounts
   useEffect(() => {
@@ -22,15 +21,31 @@ const App = () => {
   const fetchTasks = async () => {
     try {
       setLoading(true);
+      setError(null);
+      
       const response = await fetch(API_URL);
       if (!response.ok) {
-        throw new Error('Failed to fetch tasks');
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      
       const data = await response.json();
-      setTasks(data);
+      
+      // Transform backend data to frontend format
+      const transformedTasks = data.map(task => ({
+        id: task.id,
+        text: task.title,
+        completed: task.completed,
+        createdAt: task.created_at
+      }));
+      
+      setTasks(transformedTasks);
     } catch (err) {
-      setError('Failed to load tasks. Make sure your backend server is running.');
       console.error('Error fetching tasks:', err);
+      setError(
+        err.message.includes('fetch') 
+          ? 'Cannot connect to server. Make sure your backend is running on port 3000.'
+          : `Failed to load tasks: ${err.message}`
+      );
     } finally {
       setLoading(false);
     }
@@ -38,40 +53,51 @@ const App = () => {
 
   // Add new task to backend
   const addTask = async (text) => {
+    if (!text.trim()) return;
+    
     try {
+      setError(null);
+      
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          title: text,
+          title: text.trim(),
           description: ''
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create task');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create task');
       }
 
       const newTask = await response.json();
       
       // Add the new task to local state
-      setTasks([...tasks, {
+      setTasks(prevTasks => [...prevTasks, {
         id: newTask.id,
         text: newTask.title,
-        completed: newTask.completed
+        completed: newTask.completed,
+        createdAt: newTask.created_at
       }]);
+      
     } catch (err) {
-      setError('Failed to add task. Please try again.');
       console.error('Error adding task:', err);
+      setError(`Failed to add task: ${err.message}`);
     }
   };
 
   // Toggle task completion status
   const toggleTask = async (id) => {
     try {
+      setError(null);
+      
       const task = tasks.find(t => t.id === id);
+      if (!task) return;
+      
       const response = await fetch(`${API_URL}/${id}`, {
         method: 'PUT',
         headers: {
@@ -85,35 +111,43 @@ const App = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update task');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update task');
       }
 
       // Update local state
-      setTasks(tasks.map(task =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      ));
+      setTasks(prevTasks => 
+        prevTasks.map(t =>
+          t.id === id ? { ...t, completed: !t.completed } : t
+        )
+      );
+      
     } catch (err) {
-      setError('Failed to update task. Please try again.');
       console.error('Error updating task:', err);
+      setError(`Failed to update task: ${err.message}`);
     }
   };
 
   // Delete task from backend
   const deleteTask = async (id) => {
     try {
+      setError(null);
+      
       const response = await fetch(`${API_URL}/${id}`, {
         method: 'DELETE',
       });
 
       if (!response.ok) {
-        throw new Error('Failed to delete task');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to delete task');
       }
 
       // Remove from local state
-      setTasks(tasks.filter(task => task.id !== id));
+      setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
+      
     } catch (err) {
-      setError('Failed to delete task. Please try again.');
       console.error('Error deleting task:', err);
+      setError(`Failed to delete task: ${err.message}`);
     }
   };
 
@@ -125,7 +159,10 @@ const App = () => {
       <div className="app">
         <Header />
         <main className="main-content">
-          <div className="loading">Loading tasks...</div>
+          <div className="loading">
+            <div className="loading-spinner"></div>
+            <p>Loading tasks...</p>
+          </div>
         </main>
       </div>
     );
@@ -138,7 +175,7 @@ const App = () => {
       <main className="main-content">
         {error && (
           <div className="error-message">
-            {error}
+            <span>⚠️ {error}</span>
             <button onClick={fetchTasks} className="retry-btn">
               Retry
             </button>
@@ -149,7 +186,7 @@ const App = () => {
         
         {totalCount > 0 && (
           <div className="task-summary">
-            <p>{completedCount} of {totalCount} tasks completed</p>
+            <p>📊 {completedCount} of {totalCount} tasks completed</p>
           </div>
         )}
         
