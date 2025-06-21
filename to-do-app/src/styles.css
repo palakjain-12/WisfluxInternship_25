@@ -36,6 +36,42 @@ body {
   font-size: 14px;
 }
 
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 40px 0;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+/* Error message */
+.error-message {
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.retry-btn {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.retry-btn:hover {
+  background-color: #b91c1c;
+}
+
 .header {
   text-align: center;
   margin-bottom: 30px;
