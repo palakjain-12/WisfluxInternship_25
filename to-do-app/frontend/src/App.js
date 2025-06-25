@@ -1,29 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import Header from './Header';
-import TodoInput from './TodoInput';
-import TaskList from './TaskList';
-import './styles.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import Header from './components/Header';
+import TodoInput from './components/TodoInput';
+import TaskList from './components/TaskList';
+import Login from './components/Login';
+import Register from './components/Register';
+import ProtectedRoute from './components/ProtectedRoute';
+import './components/styles.css';
 
-const App = () => {
+// Main Todo Component (protected)
+const TodoApp = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { token } = useAuth();
 
   // API base URL - use environment variable or default
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api/tasks';
 
   // Fetch all tasks when component mounts
   useEffect(() => {
-    fetchTasks();
-  }, []);
+    if (token) {
+      fetchTasks();
+    }
+  }, [token]);
 
-  // Fetch tasks from backend
+  // Fetch tasks from backend with authentication
   const fetchTasks = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const response = await fetch(API_URL);
+      const response = await fetch(API_URL, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -51,7 +65,7 @@ const App = () => {
     }
   };
 
-  // Add new task to backend
+  // Add new task to backend with authentication
   const addTask = async (text) => {
     if (!text.trim()) return;
     
@@ -62,6 +76,7 @@ const App = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           title: text.trim(),
@@ -90,7 +105,7 @@ const App = () => {
     }
   };
 
-  // Toggle task completion status
+  // Toggle task completion status with authentication
   const toggleTask = async (id) => {
     try {
       setError(null);
@@ -102,6 +117,7 @@ const App = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           title: task.text,
@@ -128,13 +144,16 @@ const App = () => {
     }
   };
 
-  // Delete task from backend
+  // Delete task from backend with authentication
   const deleteTask = async (id) => {
     try {
       setError(null);
       
       const response = await fetch(`${API_URL}/${id}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       if (!response.ok) {
@@ -197,6 +216,36 @@ const App = () => {
         />
       </main>
     </div>
+  );
+};
+
+// Main App Component with Router
+const App = () => {
+  return (
+    <AuthProvider>
+      <Router>
+        <div className="app-container">
+          <Routes>
+            {/* Public routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            
+            {/* Protected routes */}
+            <Route 
+              path="/" 
+              element={
+                <ProtectedRoute>
+                  <TodoApp />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* Redirect any unknown routes to home */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 };
 
