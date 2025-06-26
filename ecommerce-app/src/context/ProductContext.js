@@ -13,7 +13,7 @@ const mockProducts = [
   {
     id: 1,
     name: 'Wireless Headphones',
-    price: 99.99,
+    price: 5899,
     image: '/images/headphones.jpg', // Add your image path here
     emoji: '🎧', // Keep emoji as fallback
     description: 'High-quality wireless headphones with noise cancellation and premium sound quality.'
@@ -21,7 +21,7 @@ const mockProducts = [
   {
     id: 2,
     name: 'Smart Watch',
-    price: 299.99,
+    price: 12999,
     image: '/images/smartwatch.jpg', // Add your image path here
     emoji: '⌚',
     description: 'Advanced smartwatch with health monitoring, GPS, and long battery life.'
@@ -29,7 +29,7 @@ const mockProducts = [
   {
     id: 3,
     name: 'Laptop',
-    price: 899.99,
+    price: 120899,
     image: '/images/laptop.jpg', // Add your image path here
     emoji: '💻',
     description: 'Powerful laptop perfect for work and gaming with fast processor and graphics.'
@@ -37,7 +37,7 @@ const mockProducts = [
   {
     id: 4,
     name: 'Smartphone',
-    price: 699.99,
+    price: 132999,
     image: '/images/smartphone.jpg', // Add your image path here
     emoji: '📱',
     description: 'Latest smartphone with advanced camera system and lightning-fast performance.'
@@ -45,7 +45,7 @@ const mockProducts = [
   {
     id: 5,
     name: 'Tablet',
-    price: 449.99,
+    price: 44999,
     image: '/images/tablet.jpg', // Add your image path here
     emoji: '📲',
     description: 'Versatile tablet perfect for productivity, entertainment, and creative work.'
@@ -53,7 +53,7 @@ const mockProducts = [
   {
     id: 6,
     name: 'Gaming Console',
-    price: 499.99,
+    price: 90299,
     image: '/images/gaming-console.jpg', // Add your image path here
     emoji: '🎮',
     description: 'Next-generation gaming console with stunning graphics and exclusive games.'

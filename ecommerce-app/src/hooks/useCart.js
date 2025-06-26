@@ -34,7 +34,7 @@ export const useCart = () => {
 
   // Get cart total formatted
   const getFormattedTotal = () => {
-    return `$${cartContext.total.toFixed(2)}`;
+    return `Rs.${cartContext.total.toFixed(2)}`;
   };
 
   // Increment item quantity

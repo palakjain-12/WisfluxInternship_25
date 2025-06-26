@@ -92,7 +92,7 @@ const ProductDetail = () => {
           <h1>{product.name}</h1>
           
           <div className="product-detail-price">
-            ${product.price}
+            Rs.{product.price}
           </div>
           
           <p className="product-description">

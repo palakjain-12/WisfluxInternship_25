@@ -60,7 +60,7 @@ const Cart = () => {
             marginBottom: '0.5rem'
           }}>
             <span>Subtotal:</span>
-            <span>${cartSummary.subtotal}</span>
+            <span>Rs.{cartSummary.subtotal}</span>
           </div>
           
           <div style={{ 
@@ -69,7 +69,7 @@ const Cart = () => {
             marginBottom: '0.5rem'
           }}>
             <span>Tax (8%):</span>
-            <span>${cartSummary.tax}</span>
+            <span>Rs.{cartSummary.tax}</span>
           </div>
           
           <hr style={{ margin: '1rem 0' }} />
@@ -81,7 +81,7 @@ const Cart = () => {
             fontWeight: 'bold'
           }}>
             <span>Total:</span>
-            <span>${cartSummary.finalTotal}</span>
+            <span>Rs.{cartSummary.finalTotal}</span>
           </div>
         </div>
         

@@ -34,7 +34,7 @@ const CartItem = ({ item }) => {
         
         <div className="cart-item-details">
           <h3>{item.name}</h3>
-          <p>${item.price}</p>
+          <p>Rs.{item.price}</p>
         </div>
       </div>
       
@@ -56,7 +56,7 @@ const CartItem = ({ item }) => {
         </div>
         
         <div className="item-total">
-          ${(item.price * item.quantity).toFixed(2)}
+          Rs.{(item.price * item.quantity).toFixed(2)}
         </div>
         
         <button 

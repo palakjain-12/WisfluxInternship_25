@@ -41,7 +41,7 @@ const ProductCard = ({ product }) => {
       <h3 className="product-title">{product.name}</h3>
       
       <div className="product-price">
-        ${product.price}
+        Rs.{product.price}
       </div>
       
       <button 
