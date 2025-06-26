@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../hooks/useCart';
 
 const CartItem = ({ item }) => {
   const { incrementQuantity, decrementQuantity, removeFromCart } = useCart();
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
 
   return (
     <div className="cart-item">
       <div className="cart-item-info">
         <div className="cart-item-image">
-          {item.image}
+          {!imageError && item.image ? (
+            <img 
+              src={item.image} 
+              alt={item.name}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '4px'
+              }}
+              onError={handleImageError}
+            />
+          ) : (
+            <span style={{ fontSize: '2rem' }}>
+              {item.emoji || '📦'}
+            </span>
+          )}
         </div>
         
         <div className="cart-item-details">

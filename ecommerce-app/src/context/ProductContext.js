@@ -14,42 +14,48 @@ const mockProducts = [
     id: 1,
     name: 'Wireless Headphones',
     price: 99.99,
-    image: '🎧',
+    image: '/images/headphones.jpg', // Add your image path here
+    emoji: '🎧', // Keep emoji as fallback
     description: 'High-quality wireless headphones with noise cancellation and premium sound quality.'
   },
   {
     id: 2,
     name: 'Smart Watch',
     price: 299.99,
-    image: '⌚',
+    image: '/images/smartwatch.jpg', // Add your image path here
+    emoji: '⌚',
     description: 'Advanced smartwatch with health monitoring, GPS, and long battery life.'
   },
   {
     id: 3,
     name: 'Laptop',
     price: 899.99,
-    image: '💻',
+    image: '/images/laptop.jpg', // Add your image path here
+    emoji: '💻',
     description: 'Powerful laptop perfect for work and gaming with fast processor and graphics.'
   },
   {
     id: 4,
     name: 'Smartphone',
     price: 699.99,
-    image: '📱',
+    image: '/images/smartphone.jpg', // Add your image path here
+    emoji: '📱',
     description: 'Latest smartphone with advanced camera system and lightning-fast performance.'
   },
   {
     id: 5,
     name: 'Tablet',
     price: 449.99,
-    image: '📲',
+    image: '/images/tablet.jpg', // Add your image path here
+    emoji: '📲',
     description: 'Versatile tablet perfect for productivity, entertainment, and creative work.'
   },
   {
     id: 6,
     name: 'Gaming Console',
     price: 499.99,
-    image: '🎮',
+    image: '/images/gaming-console.jpg', // Add your image path here
+    emoji: '🎮',
     description: 'Next-generation gaming console with stunning graphics and exclusive games.'
   }
 ];

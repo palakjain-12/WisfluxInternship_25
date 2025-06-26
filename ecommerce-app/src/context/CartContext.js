@@ -14,7 +14,8 @@ const CART_ACTIONS = {
   REMOVE_ITEM: 'REMOVE_ITEM',
   UPDATE_QUANTITY: 'UPDATE_QUANTITY',
   CLEAR_CART: 'CLEAR_CART',
-  LOAD_CART: 'LOAD_CART'
+  LOAD_CART: 'LOAD_CART',
+  UPDATE_TOTALS: 'UPDATE_TOTALS'
 };
 
 // Reducer function
@@ -79,6 +80,13 @@ const cartReducer = (state, action) => {
         items: action.payload
       };
 
+    case CART_ACTIONS.UPDATE_TOTALS:
+      return {
+        ...state,
+        total: action.payload.total,
+        itemCount: action.payload.itemCount
+      };
+
     default:
       return state;
   }
@@ -108,65 +116,43 @@ export const CartProvider = ({ children }) => {
     const itemCount = state.items.reduce((sum, item) => sum + item.quantity, 0);
     
     // Update state with calculated values
-    if (state.total !== total || state.itemCount !== itemCount) {
-      dispatch({
-        type: 'UPDATE_TOTALS',
-        payload: { total, itemCount }
-      });
-    }
-  }, [state.items, state.total, state.itemCount]);
-
-  // Add UPDATE_TOTALS to reducer
-  const enhancedCartReducer = (state, action) => {
-    if (action.type === 'UPDATE_TOTALS') {
-      return {
-        ...state,
-        total: action.payload.total,
-        itemCount: action.payload.itemCount
-      };
-    }
-    return cartReducer(state, action);
-  };
-
-  // Replace the reducer call
-  const [enhancedState, enhancedDispatch] = useReducer(enhancedCartReducer, {
-    ...initialState,
-    items: state.items,
-    total: state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-    itemCount: state.items.reduce((sum, item) => sum + item.quantity, 0)
-  });
+    dispatch({
+      type: CART_ACTIONS.UPDATE_TOTALS,
+      payload: { total, itemCount }
+    });
+  }, [state.items]);
 
   // Action creators
   const addToCart = (product) => {
-    enhancedDispatch({ type: CART_ACTIONS.ADD_ITEM, payload: product });
+    dispatch({ type: CART_ACTIONS.ADD_ITEM, payload: product });
   };
 
   const removeFromCart = (productId) => {
-    enhancedDispatch({ type: CART_ACTIONS.REMOVE_ITEM, payload: productId });
+    dispatch({ type: CART_ACTIONS.REMOVE_ITEM, payload: productId });
   };
 
   const updateQuantity = (productId, quantity) => {
-    enhancedDispatch({ 
+    dispatch({ 
       type: CART_ACTIONS.UPDATE_QUANTITY, 
       payload: { id: productId, quantity } 
     });
   };
 
   const clearCart = () => {
-    enhancedDispatch({ type: CART_ACTIONS.CLEAR_CART });
+    dispatch({ type: CART_ACTIONS.CLEAR_CART });
   };
 
   const isInCart = (productId) => {
-    return enhancedState.items.some(item => item.id === productId);
+    return state.items.some(item => item.id === productId);
   };
 
   const getItemQuantity = (productId) => {
-    const item = enhancedState.items.find(item => item.id === productId);
+    const item = state.items.find(item => item.id === productId);
     return item ? item.quantity : 0;
   };
 
   const value = {
-    ...enhancedState,
+    ...state,
     addToCart,
     removeFromCart,
     updateQuantity,

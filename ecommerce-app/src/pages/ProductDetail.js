@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProductContext } from '../context/ProductContext';
 import { useCart } from '../hooks/useCart';
@@ -8,6 +8,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const { getProductById, loading } = useProductContext();
   const { addToCartWithFeedback, isInCart, getItemQuantity } = useCart();
+  const [imageError, setImageError] = useState(false);
   
   const product = getProductById(id);
 
@@ -44,6 +45,10 @@ const ProductDetail = () => {
     addToCartWithFeedback(product);
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
   const quantity = getItemQuantity(product.id);
 
   return (
@@ -64,7 +69,23 @@ const ProductDetail = () => {
       
       <div className="product-detail">
         <div className="product-detail-image">
-          {product.image}
+          {!imageError && product.image ? (
+            <img 
+              src={product.image} 
+              alt={product.name}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: '8px'
+              }}
+              onError={handleImageError}
+            />
+          ) : (
+            <span style={{ fontSize: '6rem' }}>
+              {product.emoji || '📦'}
+            </span>
+          )}
         </div>
         
         <div className="product-detail-info">
