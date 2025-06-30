@@ -17,19 +17,59 @@ function AuthForm({ isLogin }) {
     setError('');
     setSuccess('');
 
+    // Client-side validation
+    if (!username.trim()) {
+      setError('Username is required');
+      setLoading(false);
+      return;
+    }
+    
+    if (!password.trim()) {
+      setError('Password is required');
+      setLoading(false);
+      return;
+    }
+    
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      setLoading(false);
+      return;
+    }
+
     try {
       const endpoint = isLogin ? '/auth/login' : '/auth/signup';
-      const result = await api.post(endpoint, { username, password });
+      console.log('Making request to:', endpoint);
+      console.log('Request data:', { username, password: '***' });
       
-      if (result.token) {
-        setToken(result.token);
-        setSuccess(isLogin ? 'Login successful!' : 'Account created successfully!');
-        setTimeout(() => navigate('/journal'), 1000);
+      const response = await fetch(`http://localhost:5000/api${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      
+      console.log('Response status:', response.status);
+      const result = await response.json();
+      console.log('Response data:', result);
+      
+      if (response.ok) {
+        if (isLogin && result.token) {
+          setToken(result.token);
+          setSuccess('Login successful!');
+          setTimeout(() => navigate('/journal'), 1000);
+        } else if (!isLogin) {
+          setSuccess('Account created successfully! Please login.');
+          setTimeout(() => navigate('/login'), 2000);
+        } else {
+          setError('Unexpected response format');
+        }
       } else {
-        setError(result.error || 'Something went wrong');
+        setError(result.error || `${isLogin ? 'Login' : 'Signup'} failed`);
       }
     } catch (err) {
-      setError('Network error. Please try again.');
+      console.error('Network error:', err);
+      setError('Network error. Please check if the server is running and try again.');
     } finally {
       setLoading(false);
     }
@@ -53,6 +93,7 @@ function AuthForm({ isLogin }) {
             placeholder="Enter your username"
             required
             disabled={loading}
+            minLength="3"
           />
         </div>
         
@@ -63,7 +104,7 @@ function AuthForm({ isLogin }) {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
+            placeholder="Enter your password (min 6 characters)"
             required
             disabled={loading}
             minLength="6"
