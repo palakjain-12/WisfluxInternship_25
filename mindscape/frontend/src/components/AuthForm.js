@@ -56,8 +56,11 @@ function AuthForm({ isLogin }) {
       if (response.ok) {
         if (isLogin && result.token) {
           setToken(result.token);
-          setSuccess('Login successful!');
-          setTimeout(() => navigate('/journal'), 1000);
+          setSuccess('Login successful! Redirecting...');
+          // Force a page reload to ensure App component re-renders with new auth state
+          setTimeout(() => {
+            window.location.href = '/journal';
+          }, 500);
         } else if (!isLogin) {
           setSuccess('Account created successfully! Please login.');
           setTimeout(() => navigate('/login'), 2000);
