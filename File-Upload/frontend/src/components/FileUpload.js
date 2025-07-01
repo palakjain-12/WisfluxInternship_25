@@ -81,26 +81,29 @@ const FileUpload = ({ onFileUpload }) => {
     <div className="file-upload-container">
       <h2>Upload Files</h2>
       
-      <div className="upload-type-selector">
-        <label>
-          <input
-            type="radio"
-            value="single"
-            checked={uploadType === 'single'}
-            onChange={(e) => setUploadType(e.target.value)}
-          />
-          Single File
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="multiple"
-            checked={uploadType === 'multiple'}
-            onChange={(e) => setUploadType(e.target.value)}
-          />
-          Multiple Files
-        </label>
-      </div>
+
+<div className="upload-type-selector">
+  <label className={uploadType === 'single' ? 'active' : ''}>
+    <input
+      type="radio"
+      name="uploadType"
+      value="single"
+      checked={uploadType === 'single'}
+      onChange={(e) => setUploadType(e.target.value)}
+    />
+    Single File
+  </label>
+  <label className={uploadType === 'multiple' ? 'active' : ''}>
+    <input
+      type="radio"
+      name="uploadType"
+      value="multiple"
+      checked={uploadType === 'multiple'}
+      onChange={(e) => setUploadType(e.target.value)}
+    />
+    Multiple Files
+  </label>
+</div>
 
       <div className="file-input-container">
         <input

@@ -30,18 +30,17 @@
   font-weight: 500;
 }
 
-.upload-type-selector label:hover {
-  border-color: #e67e22;
-  background-color: #fef9e7;
+
+.upload-type-selector input[type="radio"] {
+  margin-right: 0.5rem;
 }
 
-.upload-type-selector input[type="radio"]:checked + label,
-.upload-type-selector label:has(input[type="radio"]:checked) {
+.upload-type-selector label.active,
+.upload-type-selector label:hover {
   border-color: #e67e22;
   background-color: #e67e22;
   color: white;
 }
-
 .file-input-container {
   position: relative;
 }
